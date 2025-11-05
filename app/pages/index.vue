@@ -53,6 +53,16 @@
           <li>Network request inspection</li>
         </ul>
       </NuxtLink>
+
+      <NuxtLink to="/component-tracking" class="card tracking">
+        <h2>🎯 Component Tracking</h2>
+        <p>APM에서 컴포넌트 추적하기</p>
+        <ul>
+          <li>컴포넌트명 자동 추적</li>
+          <li>컴포넌트 계층 구조</li>
+          <li>브레드크럼 & 에러 추적</li>
+        </ul>
+      </NuxtLink>
     </div>
 
     <div class="info-box">
@@ -134,6 +144,16 @@ h1 {
 
 .card.debug:hover {
   border-color: #ff9800;
+}
+
+.card.tracking {
+  border-color: #28a745;
+  background: linear-gradient(135deg, rgba(40, 167, 69, 0.1) 0%, rgba(32, 201, 151, 0.1) 100%);
+}
+
+.card.tracking:hover {
+  border-color: #20c997;
+  box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
 }
 
 .card ul {

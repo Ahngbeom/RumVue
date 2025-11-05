@@ -93,7 +93,7 @@ export const useApmTracking = () => {
         endTransaction()
         return result
       } catch (error) {
-        captureError(error)
+        captureError(error instanceof Error ? error : new Error(String(error)))
         if (transaction) transaction.end()
         throw error
       }

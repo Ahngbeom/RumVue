@@ -50,6 +50,80 @@ export default defineNuxtPlugin((nuxtApp) => {
         router: nuxtApp.$router
       }
     })
+
+    // Install global error handler for component tracking
+    nuxtApp.vueApp.config.errorHandler = (err, instance, info) => {
+      console.error('[APM] Vue Error Handler:', err, info)
+
+      // Get component information
+      let componentName = 'Unknown'
+      let componentHierarchy: string[] = []
+
+      if (instance) {
+        // Get component name
+        componentName =
+          instance.$options?.name ||
+          instance.$options?.__name ||
+          (instance.$options as any)?.displayName ||
+          'AnonymousComponent'
+
+        // Build component hierarchy
+        let current: typeof instance | null = instance
+        while (current) {
+          const name =
+            current.$options?.name ||
+            current.$options?.__name ||
+            'AnonymousComponent'
+          componentHierarchy.unshift(name)
+          current = current.$parent
+        }
+      }
+
+      const hierarchyPath = componentHierarchy.join(' > ')
+
+      // Set component context
+      apm.setCustomContext({
+        vue_error: {
+          component_name: componentName,
+          component_hierarchy: componentHierarchy,
+          hierarchy_path: hierarchyPath,
+          error_info: info,
+          timestamp: new Date().toISOString()
+        }
+      })
+
+      // Add labels for filtering
+      apm.addLabels({
+        error_type: 'vue_component_error',
+        error_component: componentName,
+        error_hierarchy: hierarchyPath,
+        error_info: info
+      })
+
+      // Capture the error
+      apm.captureError(err instanceof Error ? err : new Error(String(err)))
+
+      // Re-throw the error so Vue can still handle it
+      throw err
+    }
+
+    // Install global warning handler
+    nuxtApp.vueApp.config.warnHandler = (msg, instance, trace) => {
+      console.warn('[APM] Vue Warning:', msg, trace)
+
+      let componentName = 'Unknown'
+      if (instance) {
+        componentName =
+          instance.$options?.name ||
+          instance.$options?.__name ||
+          'AnonymousComponent'
+      }
+
+      apm.addLabels({
+        warning_type: 'vue_component_warning',
+        warning_component: componentName
+      })
+    }
   }
 
   // Provide APM instance to the app
