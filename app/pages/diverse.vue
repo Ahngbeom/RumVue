@@ -9,12 +9,12 @@
       <h2>1. API Calls</h2>
       <p>API 요청이 자동으로 추적됩니다 (HTTP spans).</p>
       <div class="button-group">
-        <button @click="fetchUsers" :disabled="loading" class="btn btn-primary">
+        <RumButton variant="primary" :loading="loading" @click="fetchUsers">
           {{ loading ? 'Loading...' : 'Fetch Users' }}
-        </button>
-        <button @click="fetchPosts" :disabled="loading" class="btn btn-primary">
+        </RumButton>
+        <RumButton variant="primary" :loading="loading" @click="fetchPosts">
           {{ loading ? 'Loading...' : 'Fetch Posts' }}
-        </button>
+        </RumButton>
       </div>
       <div v-if="apiData" class="data-box">
         <h4>API Response:</h4>
@@ -29,12 +29,12 @@
       <h2>2. Timer Operations</h2>
       <p>비동기 작업과 타이머 추적</p>
       <div class="timer-controls">
-        <button @click="startTimer" :disabled="timerRunning" class="btn">
+        <RumButton :disabled="timerRunning" @click="startTimer">
           Start Timer (3s)
-        </button>
-        <button @click="stopTimer" :disabled="!timerRunning" class="btn btn-danger">
+        </RumButton>
+        <RumButton variant="danger" :disabled="!timerRunning" @click="stopTimer">
           Stop Timer
-        </button>
+        </RumButton>
       </div>
       <div class="timer-display">
         <p>Timer Status: <strong>{{ timerRunning ? 'Running' : 'Stopped' }}</strong></p>
@@ -47,15 +47,15 @@
       <h2>3. Error Tracking</h2>
       <p>에러와 예외 상황 추적</p>
       <div class="button-group">
-        <button @click="throwSyncError" class="btn btn-warning">
+        <RumButton variant="warning" @click="throwSyncError">
           Trigger Sync Error
-        </button>
-        <button @click="throwAsyncError" class="btn btn-warning">
+        </RumButton>
+        <RumButton variant="warning" @click="throwAsyncError">
           Trigger Async Error
-        </button>
-        <button @click="simulateNetworkError" class="btn btn-warning">
+        </RumButton>
+        <RumButton variant="warning" @click="simulateNetworkError">
           Simulate Network Error
-        </button>
+        </RumButton>
       </div>
       <div v-if="errorMessage" class="error-box">
         {{ errorMessage }}
@@ -78,9 +78,9 @@
           placeholder="Value"
           class="input small"
         />
-        <button @click="saveToStorage" class="btn">Save</button>
-        <button @click="loadFromStorage" class="btn">Load</button>
-        <button @click="clearStorage" class="btn btn-danger">Clear</button>
+        <RumButton @click="saveToStorage">Save</RumButton>
+        <RumButton @click="loadFromStorage">Load</RumButton>
+        <RumButton variant="danger" @click="clearStorage">Clear</RumButton>
       </div>
       <div v-if="storageData" class="data-box small">
         <strong>Loaded:</strong> {{ storageData }}
@@ -91,9 +91,9 @@
       <h2>5. Performance Measurement</h2>
       <p>무거운 계산 작업 성능 추적</p>
       <div class="button-group">
-        <button @click="runHeavyComputation" :disabled="computing" class="btn btn-primary">
+        <RumButton variant="primary" :loading="computing" @click="runHeavyComputation">
           {{ computing ? 'Computing...' : 'Run Heavy Computation' }}
-        </button>
+        </RumButton>
       </div>
       <div v-if="computeResult" class="data-box">
         <p>Result: {{ computeResult.value }}</p>
@@ -472,55 +472,6 @@ onMounted(() => {
   gap: 1rem;
   margin: 1rem 0;
   flex-wrap: wrap;
-}
-
-.btn {
-  padding: 0.75rem 1.5rem;
-  border: 2px solid #ddd;
-  border-radius: 4px;
-  background: white;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: all 0.3s;
-}
-
-.btn:hover:not(:disabled) {
-  background: #f0f0f0;
-}
-
-.btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.btn-primary {
-  background: #005571;
-  color: white;
-  border-color: #005571;
-}
-
-.btn-primary:hover:not(:disabled) {
-  background: #004158;
-}
-
-.btn-danger {
-  background: #dc3545;
-  color: white;
-  border-color: #dc3545;
-}
-
-.btn-danger:hover:not(:disabled) {
-  background: #c82333;
-}
-
-.btn-warning {
-  background: #ffc107;
-  color: #000;
-  border-color: #ffc107;
-}
-
-.btn-warning:hover:not(:disabled) {
-  background: #e0a800;
 }
 
 .data-box {

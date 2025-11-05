@@ -44,9 +44,9 @@
           </div>
         </div>
       </div>
-      <button @click="refreshBreadcrumbs" class="btn btn-sm">
+      <RumButton size="sm" @click="refreshBreadcrumbs">
         Refresh Breadcrumbs
-      </button>
+      </RumButton>
     </div>
 
     <!-- Tracked Components Demo -->
@@ -106,15 +106,15 @@
       <p>컴포넌트에서 발생한 에러를 추적하는 방법</p>
 
       <div class="error-demo">
-        <button @click="throwPageError" class="btn btn-danger">
+        <RumButton variant="danger" @click="throwPageError">
           Throw Page-Level Error
-        </button>
-        <button @click="throwAsyncError" class="btn btn-danger">
+        </RumButton>
+        <RumButton variant="danger" @click="throwAsyncError">
           Throw Async Error
-        </button>
-        <button @click="throwNestedError" class="btn btn-danger">
+        </RumButton>
+        <RumButton variant="danger" @click="throwNestedError">
           Throw Nested Component Error
-        </button>
+        </RumButton>
       </div>
 
       <div class="error-info">
@@ -492,35 +492,5 @@ onMounted(() => {
 
 .apm-instructions ul {
   margin-top: 0.5rem;
-}
-
-.btn {
-  padding: 0.75rem 1.5rem;
-  border: 2px solid #ddd;
-  border-radius: 4px;
-  background: white;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: all 0.3s;
-  margin-right: 0.5rem;
-}
-
-.btn:hover {
-  background: #f0f0f0;
-}
-
-.btn-sm {
-  padding: 0.5rem 1rem;
-  font-size: 0.875rem;
-}
-
-.btn-danger {
-  background: #dc3545;
-  color: white;
-  border-color: #dc3545;
-}
-
-.btn-danger:hover {
-  background: #c82333;
 }
 </style>

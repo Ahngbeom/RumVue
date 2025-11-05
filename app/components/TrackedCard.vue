@@ -8,12 +8,12 @@
       <slot></slot>
     </div>
     <div class="card-footer" v-if="showActions">
-      <button @click="handleAction" class="btn btn-sm">
+      <RumButton size="sm" @click="handleAction">
         Track Action
-      </button>
-      <button @click="throwError" class="btn btn-sm btn-danger">
+      </RumButton>
+      <RumButton size="sm" variant="danger" @click="throwError">
         Throw Error
-      </button>
+      </RumButton>
     </div>
   </div>
 </template>
@@ -97,34 +97,5 @@ const throwError = () => {
   background: #f8f9fa;
   display: flex;
   gap: 0.5rem;
-}
-
-.btn {
-  padding: 0.5rem 1rem;
-  border: 2px solid #ddd;
-  border-radius: 4px;
-  background: white;
-  cursor: pointer;
-  font-size: 0.875rem;
-  transition: all 0.3s;
-}
-
-.btn:hover {
-  background: #f0f0f0;
-}
-
-.btn-sm {
-  padding: 0.375rem 0.75rem;
-  font-size: 0.8125rem;
-}
-
-.btn-danger {
-  background: #dc3545;
-  color: white;
-  border-color: #dc3545;
-}
-
-.btn-danger:hover {
-  background: #c82333;
 }
 </style>

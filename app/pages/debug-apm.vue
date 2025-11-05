@@ -17,15 +17,15 @@
     <div class="section">
       <h2>Test Transactions</h2>
       <div class="button-group">
-        <button @click="testSimpleTransaction" class="btn btn-primary">
+        <RumButton variant="primary" @click="testSimpleTransaction">
           Test Simple Transaction
-        </button>
-        <button @click="testTransactionWithLabels" class="btn btn-primary">
+        </RumButton>
+        <RumButton variant="primary" @click="testTransactionWithLabels">
           Test Transaction with Labels
-        </button>
-        <button @click="testManualTransaction" class="btn btn-success">
+        </RumButton>
+        <RumButton variant="success" @click="testManualTransaction">
           Test Manual Transaction
-        </button>
+        </RumButton>
       </div>
     </div>
 
@@ -230,40 +230,6 @@ onMounted(() => {
   gap: 1rem;
   margin: 1rem 0;
   flex-wrap: wrap;
-}
-
-.btn {
-  padding: 0.75rem 1.5rem;
-  border: 2px solid #ddd;
-  border-radius: 4px;
-  background: white;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: all 0.3s;
-}
-
-.btn:hover {
-  background: #f0f0f0;
-}
-
-.btn-primary {
-  background: #005571;
-  color: white;
-  border-color: #005571;
-}
-
-.btn-primary:hover {
-  background: #004158;
-}
-
-.btn-success {
-  background: #28a745;
-  color: white;
-  border-color: #28a745;
-}
-
-.btn-success:hover {
-  background: #218838;
 }
 
 ol {

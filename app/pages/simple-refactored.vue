@@ -30,9 +30,9 @@
         </div>
       </div>
       <div class="button-group">
-        <button @click="handleClick('Button 1')" class="btn">Click Me 1</button>
-        <button @click="handleClick('Button 2')" class="btn btn-primary">Click Me 2</button>
-        <button @click="handleClick('Button 3')" class="btn btn-success">Click Me 3</button>
+        <RumButton @click="handleClick('Button 1')">Click Me 1</RumButton>
+        <RumButton variant="primary" @click="handleClick('Button 2')">Click Me 2</RumButton>
+        <RumButton variant="success" @click="handleClick('Button 3')">Click Me 3</RumButton>
       </div>
       <p class="counter">Clicks: {{ clickCount }}</p>
     </div>
@@ -60,7 +60,7 @@
           class="input"
         />
       </div>
-      <button @click="submitForm" class="btn btn-primary">Submit</button>
+      <RumButton variant="primary" @click="submitForm">Submit</RumButton>
       <div v-if="formSubmitted" class="success-message">
         Form submitted successfully!
       </div>
@@ -70,9 +70,9 @@
       <h2>3. API Call</h2>
       <p>API 호출이 자동으로 추적됩니다.</p>
       <div class="button-group">
-        <button @click="fetchUsers" :disabled="loading" class="btn btn-primary">
+        <RumButton variant="primary" :loading="loading" @click="fetchUsers">
           {{ loading ? 'Loading...' : 'Fetch Users' }}
-        </button>
+        </RumButton>
       </div>
       <div v-if="apiData" class="data-box">
         <h4>API Response:</h4>
@@ -90,8 +90,8 @@
           placeholder="Value"
           class="input small"
         />
-        <button @click="saveToStorage" class="btn">Save</button>
-        <button @click="loadFromStorage" class="btn">Load</button>
+        <RumButton @click="saveToStorage">Save</RumButton>
+        <RumButton @click="loadFromStorage">Load</RumButton>
       </div>
       <div v-if="storageData" class="data-box small">
         <strong>Loaded:</strong> {{ storageData }}
@@ -336,45 +336,6 @@ onMounted(() => {
   gap: 1rem;
   margin: 1rem 0;
   flex-wrap: wrap;
-}
-
-.btn {
-  padding: 0.75rem 1.5rem;
-  border: 2px solid #ddd;
-  border-radius: 4px;
-  background: white;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: all 0.3s;
-}
-
-.btn:hover:not(:disabled) {
-  background: #f0f0f0;
-}
-
-.btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.btn-primary {
-  background: #005571;
-  color: white;
-  border-color: #005571;
-}
-
-.btn-primary:hover:not(:disabled) {
-  background: #004158;
-}
-
-.btn-success {
-  background: #28a745;
-  color: white;
-  border-color: #28a745;
-}
-
-.btn-success:hover:not(:disabled) {
-  background: #218838;
 }
 
 .counter {

@@ -42,15 +42,15 @@
       </div>
 
       <div class="form-actions">
-        <button type="submit" class="btn btn-primary">
+        <RumButton type="submit" variant="primary">
           Submit
-        </button>
-        <button type="button" @click="handleReset" class="btn">
+        </RumButton>
+        <RumButton type="button" @click="handleReset">
           Reset
-        </button>
-        <button type="button" @click="throwFormError" class="btn btn-danger">
+        </RumButton>
+        <RumButton type="button" variant="danger" @click="throwFormError">
           Trigger Error
-        </button>
+        </RumButton>
       </div>
     </form>
   </div>
@@ -209,39 +209,5 @@ const throwFormError = () => {
   display: flex;
   gap: 0.5rem;
   margin-top: 1.5rem;
-}
-
-.btn {
-  padding: 0.625rem 1.25rem;
-  border: 2px solid #ddd;
-  border-radius: 4px;
-  background: white;
-  cursor: pointer;
-  font-size: 0.9375rem;
-  transition: all 0.3s;
-}
-
-.btn:hover {
-  background: #f0f0f0;
-}
-
-.btn-primary {
-  background: #005571;
-  color: white;
-  border-color: #005571;
-}
-
-.btn-primary:hover {
-  background: #004158;
-}
-
-.btn-danger {
-  background: #dc3545;
-  color: white;
-  border-color: #dc3545;
-}
-
-.btn-danger:hover {
-  background: #c82333;
 }
 </style>

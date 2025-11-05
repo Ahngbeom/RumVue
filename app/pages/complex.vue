@@ -8,9 +8,9 @@
     <div class="section">
       <h2>1. Custom Transactions</h2>
       <p>사용자 정의 트랜잭션으로 복잡한 워크플로우 추적</p>
-      <button @click="runComplexWorkflow" :disabled="workflowRunning" class="btn btn-primary">
+      <RumButton variant="primary" :loading="workflowRunning" @click="runComplexWorkflow">
         {{ workflowRunning ? 'Running Workflow...' : 'Start Complex Workflow' }}
-      </button>
+      </RumButton>
       <div v-if="workflowSteps.length > 0" class="steps-box">
         <h4>Workflow Steps:</h4>
         <div v-for="(step, index) in workflowSteps" :key="index" class="step-item">
@@ -24,9 +24,9 @@
     <div class="section">
       <h2>2. Nested Spans</h2>
       <p>중첩된 스팬으로 세부 성능 측정</p>
-      <button @click="runNestedOperations" :disabled="nestedRunning" class="btn btn-primary">
+      <RumButton variant="primary" :loading="nestedRunning" @click="runNestedOperations">
         {{ nestedRunning ? 'Processing...' : 'Run Nested Operations' }}
-      </button>
+      </RumButton>
       <div v-if="nestedResults" class="data-box">
         <pre>{{ nestedResults }}</pre>
       </div>
@@ -47,8 +47,8 @@
         <label>Email:</label>
         <input v-model="userData.email" type="email" class="input" placeholder="john@example.com" />
       </div>
-      <button @click="setUser" class="btn btn-success">Set User Context</button>
-      <button @click="clearUser" class="btn">Clear User Context</button>
+      <RumButton variant="success" @click="setUser">Set User Context</RumButton>
+      <RumButton @click="clearUser">Clear User Context</RumButton>
       <div v-if="userSet" class="success-message">
         User context has been set and will be attached to all subsequent events
       </div>
@@ -79,7 +79,7 @@
           <option value="B">Variant B</option>
         </select>
       </div>
-      <button @click="applyCustomContext" class="btn btn-primary">Apply Context</button>
+      <RumButton variant="primary" @click="applyCustomContext">Apply Context</RumButton>
       <div v-if="contextApplied" class="success-message">
         Custom context applied to current page session
       </div>
@@ -115,23 +115,23 @@
           </div>
         </div>
         <div class="step-controls">
-          <button @click="prevStep" :disabled="currentStep === 1" class="btn">
+          <RumButton :disabled="currentStep === 1" @click="prevStep">
             Previous
-          </button>
-          <button
+          </RumButton>
+          <RumButton
             v-if="currentStep < 3"
+            variant="primary"
             @click="nextStep"
-            class="btn btn-primary"
           >
             Next
-          </button>
-          <button
+          </RumButton>
+          <RumButton
             v-else
+            variant="success"
             @click="submitMultiStep"
-            class="btn btn-success"
           >
             Submit
-          </button>
+          </RumButton>
         </div>
       </div>
       <div v-if="multiStepCompleted" class="success-message">
@@ -462,47 +462,6 @@ onMounted(() => {
 .section h2 {
   margin-top: 0;
   color: #2c3e50;
-}
-
-.btn {
-  padding: 0.75rem 1.5rem;
-  border: 2px solid #ddd;
-  border-radius: 4px;
-  background: white;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: all 0.3s;
-  margin-right: 0.5rem;
-  margin-bottom: 0.5rem;
-}
-
-.btn:hover:not(:disabled) {
-  background: #f0f0f0;
-}
-
-.btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.btn-primary {
-  background: #005571;
-  color: white;
-  border-color: #005571;
-}
-
-.btn-primary:hover:not(:disabled) {
-  background: #004158;
-}
-
-.btn-success {
-  background: #28a745;
-  color: white;
-  border-color: #28a745;
-}
-
-.btn-success:hover:not(:disabled) {
-  background: #218838;
 }
 
 .steps-box {

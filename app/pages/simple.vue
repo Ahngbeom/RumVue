@@ -9,9 +9,9 @@
       <h2>1. Button Clicks</h2>
       <p>각 버튼 클릭은 자동으로 APM에 의해 추적됩니다.</p>
       <div class="button-group">
-        <button @click="handleClick('Button 1')" class="btn">Click Me 1</button>
-        <button @click="handleClick('Button 2')" class="btn btn-primary">Click Me 2</button>
-        <button @click="handleClick('Button 3')" class="btn btn-success">Click Me 3</button>
+        <RumButton @click="handleClick('Button 1')">Click Me 1</RumButton>
+        <RumButton variant="primary" @click="handleClick('Button 2')">Click Me 2</RumButton>
+        <RumButton variant="success" @click="handleClick('Button 3')">Click Me 3</RumButton>
       </div>
       <p class="counter">Clicks: {{ clickCount }}</p>
     </div>
@@ -41,7 +41,7 @@
           class="input"
         />
       </div>
-      <button @click="submitForm" class="btn btn-primary">Submit</button>
+      <RumButton variant="primary" @click="submitForm">Submit</RumButton>
       <div v-if="formSubmitted" class="success-message">
         Form submitted successfully!
       </div>
@@ -244,40 +244,6 @@ onMounted(() => {
   gap: 1rem;
   margin: 1rem 0;
   flex-wrap: wrap;
-}
-
-.btn {
-  padding: 0.75rem 1.5rem;
-  border: 2px solid #ddd;
-  border-radius: 4px;
-  background: white;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: all 0.3s;
-}
-
-.btn:hover {
-  background: #f0f0f0;
-}
-
-.btn-primary {
-  background: #005571;
-  color: white;
-  border-color: #005571;
-}
-
-.btn-primary:hover {
-  background: #004158;
-}
-
-.btn-success {
-  background: #28a745;
-  color: white;
-  border-color: #28a745;
-}
-
-.btn-success:hover {
-  background: #218838;
 }
 
 .counter {
