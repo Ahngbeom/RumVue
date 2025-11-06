@@ -106,16 +106,36 @@ export const getComponentBreadcrumbs = (limit = 10): ComponentBreadcrumb[] => {
 }
 
 /**
+ * Performance metrics interface
+ */
+interface PerformanceMetrics {
+  renderTime: number
+  updateCount: number
+  lastUpdateTime: number
+  totalUpdateTime: number
+  avgUpdateTime: number
+  memory?: {
+    usedJSHeapSize: number
+    totalJSHeapSize: number
+    jsHeapSizeLimit: number
+    usedMB: number
+    totalMB: number
+  }
+}
+
+/**
  * Main composable for component tracking
  */
 export const useComponentTracking = (options: {
   trackLifecycle?: boolean
   trackProps?: boolean
+  trackPerformance?: boolean
   componentName?: string
 } = {}) => {
   const {
     trackLifecycle = true,
     trackProps = true,
+    trackPerformance = false,
     componentName: customName
   } = options
 
@@ -132,7 +152,21 @@ export const useComponentTracking = (options: {
       trackAction: () => null,
       trackError: () => {},
       getComponentInfo: () => ({}),
-      getComponentBreadcrumbs: (limit = 10) => getComponentBreadcrumbs(limit)
+      getComponentBreadcrumbs: (limit = 10) => getComponentBreadcrumbs(limit),
+      getPerformanceMetrics: () => ({
+        renderTime: 0,
+        updateCount: 0,
+        lastUpdateTime: 0,
+        totalUpdateTime: 0,
+        avgUpdateTime: 0
+      }),
+      performanceMetrics: shallowReadonly(shallowRef({
+        renderTime: 0,
+        updateCount: 0,
+        lastUpdateTime: 0,
+        totalUpdateTime: 0,
+        avgUpdateTime: 0
+      }))
     }
   }
 
@@ -180,6 +214,176 @@ export const useComponentTracking = (options: {
 
       console.log(`[APM] Component unmounted: ${componentName}`)
     })
+  }
+
+  // Performance tracking
+  // Use shallowRef to prevent deep reactivity that causes infinite loops
+  const performanceMetrics = shallowRef<PerformanceMetrics>({
+    renderTime: 0,
+    updateCount: 0,
+    lastUpdateTime: 0,
+    totalUpdateTime: 0,
+    avgUpdateTime: 0
+  })
+
+  if (trackPerformance) {
+    let mountStartTime = 0
+    let updateStartTime = 0
+    let renderSpan: any = null
+    let isUpdating = false // Flag to prevent recursive updates
+
+    // Track render start
+    onBeforeMount(() => {
+      mountStartTime = performance.now()
+      renderSpan = startSpan(`Render: ${componentName}`, 'component-render')
+
+      // Create performance mark
+      try {
+        performance.mark(`${componentName}-render-start`)
+      } catch (e) {
+        // Ignore if mark already exists
+      }
+    })
+
+    // Track render complete
+    onMounted(() => {
+      const renderTime = performance.now() - mountStartTime
+
+      // Create performance mark and measure
+      try {
+        performance.mark(`${componentName}-render-end`)
+        performance.measure(
+          `${componentName}-render`,
+          `${componentName}-render-start`,
+          `${componentName}-render-end`
+        )
+      } catch (e) {
+        // Ignore if mark/measure fails
+      }
+
+      // Collect memory info (Chrome/Edge only)
+      const memoryInfo = (performance as any).memory
+      let memory = undefined
+      if (memoryInfo) {
+        memory = {
+          usedJSHeapSize: memoryInfo.usedJSHeapSize,
+          totalJSHeapSize: memoryInfo.totalJSHeapSize,
+          jsHeapSizeLimit: memoryInfo.jsHeapSizeLimit,
+          usedMB: Math.round(memoryInfo.usedJSHeapSize / 1024 / 1024 * 100) / 100,
+          totalMB: Math.round(memoryInfo.totalJSHeapSize / 1024 / 1024 * 100) / 100
+        }
+      }
+
+      // Update with new object (shallowRef requires replacement)
+      performanceMetrics.value = {
+        renderTime,
+        updateCount: 0,
+        lastUpdateTime: 0,
+        totalUpdateTime: 0,
+        avgUpdateTime: 0,
+        memory
+      }
+
+      // Add to APM
+      addLabels({
+        component_name: componentName,
+        render_time_ms: Math.round(renderTime),
+        has_memory_api: !!memoryInfo
+      })
+
+      setCustomContext({
+        component_performance: {
+          name: componentName,
+          hierarchy: hierarchyPath,
+          render_time_ms: renderTime,
+          memory,
+          timestamp: new Date().toISOString()
+        }
+      })
+
+      // End render span
+      if (renderSpan) {
+        renderSpan.end()
+      }
+
+      console.log(`[Performance] ${componentName} rendered:`, {
+        renderTime: `${renderTime.toFixed(2)}ms`,
+        memory: memory
+          ? `${memory.usedMB}MB / ${memory.totalMB}MB`
+          : 'N/A'
+      })
+    })
+
+    // Track updates
+    onBeforeUpdate(() => {
+      // Skip if already updating (prevent infinite loop)
+      if (isUpdating) return
+
+      updateStartTime = performance.now()
+
+      try {
+        performance.mark(`${componentName}-update-${performanceMetrics.value.updateCount}-start`)
+      } catch (e) {
+        // Ignore
+      }
+    })
+
+    onUpdated(() => {
+      // Skip if already updating (prevent infinite loop)
+      if (isUpdating) return
+
+      isUpdating = true
+
+      // Use nextTick to update metrics after current render cycle
+      nextTick(() => {
+        const updateTime = performance.now() - updateStartTime
+        const current = performanceMetrics.value
+        const newUpdateCount = current.updateCount + 1
+        const newTotalUpdateTime = current.totalUpdateTime + updateTime
+
+        // Create new object (shallowRef requires replacement)
+        performanceMetrics.value = {
+          renderTime: current.renderTime,
+          updateCount: newUpdateCount,
+          lastUpdateTime: updateTime,
+          totalUpdateTime: newTotalUpdateTime,
+          avgUpdateTime: newTotalUpdateTime / newUpdateCount,
+          memory: current.memory
+        }
+
+        try {
+          performance.mark(`${componentName}-update-${newUpdateCount - 1}-end`)
+          performance.measure(
+            `${componentName}-update-${newUpdateCount - 1}`,
+            `${componentName}-update-${newUpdateCount - 1}-start`,
+            `${componentName}-update-${newUpdateCount - 1}-end`
+          )
+        } catch (e) {
+          // Ignore
+        }
+
+        addLabels({
+          component_name: componentName,
+          update_time_ms: Math.round(updateTime),
+          update_count: newUpdateCount
+        })
+
+        console.log(`[Performance] ${componentName} updated:`, {
+          updateTime: `${updateTime.toFixed(2)}ms`,
+          updateCount: newUpdateCount,
+          avgUpdateTime: `${(newTotalUpdateTime / newUpdateCount).toFixed(2)}ms`
+        })
+
+        isUpdating = false
+      })
+    })
+  }
+
+  /**
+   * Get current performance metrics
+   */
+  const getPerformanceMetrics = (): PerformanceMetrics => {
+    return { ...performanceMetrics.value }
   }
 
   /**
@@ -260,6 +464,8 @@ export const useComponentTracking = (options: {
     trackAction,
     trackError,
     getComponentInfo,
-    getComponentBreadcrumbs
+    getComponentBreadcrumbs,
+    getPerformanceMetrics,
+    performanceMetrics: shallowReadonly(performanceMetrics)
   }
 }

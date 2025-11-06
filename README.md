@@ -41,6 +41,8 @@ http://localhost:5601 접속 후 **Observability → APM** 메뉴
 - **[QUICKSTART.md](QUICKSTART.md)** - 앱 사용 빠른 시작 가이드
 - **[ELASTIC-SETUP.md](ELASTIC-SETUP.md)** - Elastic APM Server 로컬 구축 가이드 ⭐
 - **[README-APM.md](README-APM.md)** - 상세 APM 설정 및 사용법
+- **[SOURCEMAP-GUIDE.md](SOURCEMAP-GUIDE.md)** - 소스맵 업로드 및 활용 가이드 📦
+- **[APM-TIMELINE-FILTERING.md](APM-TIMELINE-FILTERING.md)** - APM Timeline 필터링 가이드 🔍
 - **[CLAUDE.md](CLAUDE.md)** - 프로젝트 개요
 
 ## 🎯 주요 기능
@@ -147,27 +149,40 @@ npm run preview
 4. **Services** 목록에서 `rumvue-demo` 선택
 5. Transactions, Errors, Metrics 탭에서 데이터 확인
 
-## 🐛 문제 해결
+## ✨ 프로젝트 특징
 
-### APM 연결 실패
-```bash
-# APM Server 상태 확인
-curl http://localhost:8200
+### 🎓 학습 목적의 실전 데모
+- Elastic APM RUM의 실제 사용 방법을 단계별로 학습
+- 간단한 예제부터 복잡한 커스텀 추적까지 점진적으로 제공
+- 로컬 환경에서 완전한 APM 스택을 쉽게 구축
 
-# 컨테이너 재시작
-docker compose restart apm-server
-```
+### 🧩 재사용 가능한 컴포넌트
+- `TrackedCard`, `TrackedForm`, `TrackedList` 등 추적 기능이 내장된 컴포넌트
+- 컴포넌트별 에러 및 트랜잭션 자동 구분
+- 실무에서 바로 사용 가능한 패턴 제공
 
-### Kibana에 데이터가 안 보임
-1. 시간 범위 확인 (우측 상단: "Last 15 minutes")
-2. 앱에서 페이지 이동/상호작용 후 30초 대기
-3. Kibana 페이지 새로고침
+### 🔄 Nuxt 3/4 호환
+- Nuxt 4로 개발, Nuxt 3와 95% 이상 코드 호환
+- 최소한의 수정으로 Nuxt 3 프로젝트에 적용 가능
+- 자세한 마이그레이션 가이드 포함 (CLAUDE.md)
 
-### 메모리 부족
-```yaml
-# docker-compose.yml 수정
-- "ES_JAVA_OPTS=-Xms256m -Xmx256m"
-```
+### 🛡️ 프로덕션 레디
+- 클라이언트 사이드 전용 실행으로 SSR 안전성 보장
+- 환경별 설정 분리 (development/production)
+- 에러 핸들링 및 성능 최적화 적용
+
+### 🐳 Docker로 간편한 설정
+- `docker compose up -d` 한 줄로 전체 APM 스택 실행
+- Elasticsearch, Kibana, APM Server 자동 구성
+- 즉시 사용 가능한 로컬 개발 환경
+
+## 🛠️ 기술 스택
+
+- **Frontend**: Nuxt 4 (Vue 3, Composition API)
+- **APM**: Elastic APM RUM (`@elastic/apm-rum`, `@elastic/apm-rum-vue`)
+- **Backend**: Elasticsearch 8.x + Kibana + APM Server
+- **Infrastructure**: Docker Compose
+- **Language**: TypeScript
 
 ## 📖 참고 자료
 

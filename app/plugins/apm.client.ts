@@ -51,6 +51,41 @@ export default defineNuxtPlugin((nuxtApp) => {
       }
     })
 
+    // Timeline Filter: Remove internal module spans (node_modules, _nuxt chunks)
+    // This keeps the timeline clean and focused on app code performance
+    apm.observe('transaction:end', (transaction) => {
+      // Only filter page-load and route-change transactions
+      if (transaction.type === 'page-load' || transaction.type === 'route-change') {
+        const originalCount = transaction.spans.length
+
+        // Filter out internal module spans
+        transaction.spans = transaction.spans.filter(span => {
+          const name = span.name || ''
+
+          // Remove node_modules files
+          if (name.includes('node_modules')) {
+            return false
+          }
+
+          // Remove _nuxt internal chunks
+          if (name.includes('/_nuxt/')) {
+            return false
+          }
+
+          return true
+        })
+
+        const filteredCount = originalCount - transaction.spans.length
+
+        if (filteredCount > 0) {
+          console.log(
+            `[APM Timeline Filter] Removed ${filteredCount} internal module spans ` +
+            `(${originalCount} → ${transaction.spans.length})`
+          )
+        }
+      }
+    })
+
     // Install global error handler for component tracking
     nuxtApp.vueApp.config.errorHandler = (err, instance, info) => {
       console.error('[APM] Vue Error Handler:', err, info)

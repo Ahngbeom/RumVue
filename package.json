@@ -8,7 +8,8 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "typecheck": "nuxi typecheck"
+    "typecheck": "nuxi typecheck",
+    "upload-sourcemaps": "./scripts/upload-sourcemaps.sh"
   },
   "dependencies": {
     "@elastic/apm-rum": "^5.17.0",

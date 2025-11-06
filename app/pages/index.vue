@@ -63,6 +63,16 @@
           <li>브레드크럼 & 에러 추적</li>
         </ul>
       </NuxtLink>
+
+      <NuxtLink to="/performance" class="card performance">
+        <h2>🚀 Performance Tracking</h2>
+        <p>컴포넌트 성능 메트릭 추적</p>
+        <ul>
+          <li>렌더링 시간 측정</li>
+          <li>메모리 사용량 모니터링</li>
+          <li>업데이트 성능 분석</li>
+        </ul>
+      </NuxtLink>
     </div>
 
     <div class="info-box">
@@ -154,6 +164,16 @@ h1 {
 .card.tracking:hover {
   border-color: #20c997;
   box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+}
+
+.card.performance {
+  border-color: #3498db;
+  background: linear-gradient(135deg, rgba(52, 152, 219, 0.1) 0%, rgba(155, 89, 182, 0.1) 100%);
+}
+
+.card.performance:hover {
+  border-color: #9b59b6;
+  box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
 }
 
 .card ul {

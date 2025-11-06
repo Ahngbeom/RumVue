@@ -12,6 +12,12 @@ export default defineNuxtConfig({
     }
   },
 
+  // Source map configuration
+  sourcemap: {
+    server: true,
+    client: process.env.NODE_ENV === 'production' ? 'hidden' : true
+  },
+
   // Runtime config for APM settings
   runtimeConfig: {
     public: {
