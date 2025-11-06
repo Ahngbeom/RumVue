@@ -659,9 +659,9 @@ if (process.env.NODE_ENV === 'development') {
 - [Issue #665: Exclude/ignore URLs](https://github.com/elastic/apm-agent-rum-js/issues/665)
 
 ### 관련 문서
-- [README-APM.md](./README-APM.md) - APM 기본 설정
-- [SOURCEMAP-GUIDE.md](./SOURCEMAP-GUIDE.md) - 소스맵 업로드
-- [QUICKSTART.md](./QUICKSTART.md) - 빠른 시작
+- [APM 설정 가이드](./apm-setup.md) - APM 기본 설정
+- [소스맵 업로드 가이드](./sourcemap-upload.md) - 소스맵 업로드
+- [빠른 시작 가이드](../getting-started/quickstart.md) - 빠른 시작
 
 ---
 

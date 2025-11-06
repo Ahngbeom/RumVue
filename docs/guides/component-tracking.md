@@ -470,4 +470,5 @@ useComponentTracking({
 
 - [Elastic APM RUM 공식 문서](https://www.elastic.co/guide/en/apm/agent/rum-js/current/index.html)
 - [Vue Error Handling](https://vuejs.org/api/application.html#app-config-errorhandler)
-- [RumVue 프로젝트 README](../README-APM.md)
+- [APM 설정 가이드](./apm-setup.md)
+- [전체 문서 보기](../README.md)

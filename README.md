@@ -38,12 +38,20 @@ http://localhost:5601 접속 후 **Observability → APM** 메뉴
 
 ## 📚 문서
 
-- **[QUICKSTART.md](QUICKSTART.md)** - 앱 사용 빠른 시작 가이드
-- **[ELASTIC-SETUP.md](ELASTIC-SETUP.md)** - Elastic APM Server 로컬 구축 가이드 ⭐
-- **[README-APM.md](README-APM.md)** - 상세 APM 설정 및 사용법
-- **[SOURCEMAP-GUIDE.md](SOURCEMAP-GUIDE.md)** - 소스맵 업로드 및 활용 가이드 📦
-- **[APM-TIMELINE-FILTERING.md](APM-TIMELINE-FILTERING.md)** - APM Timeline 필터링 가이드 🔍
-- **[CLAUDE.md](CLAUDE.md)** - 프로젝트 개요
+> 📖 **[전체 문서 보기](docs/README.md)** - 체계적으로 정리된 모든 문서
+
+### 빠른 시작
+- **[빠른 시작 가이드](docs/getting-started/quickstart.md)** - 5분 만에 시작하기
+- **[Elastic Stack 설정](docs/getting-started/elastic-setup.md)** - 로컬 APM Server 구축 ⭐
+
+### 가이드
+- **[APM 설정 및 사용법](docs/guides/apm-setup.md)** - 상세 설정 가이드
+- **[소스맵 업로드](docs/guides/sourcemap-upload.md)** - 에러 추적 개선 📦
+- **[Timeline 필터링](docs/guides/timeline-filtering.md)** - 고급 필터링 🔍
+- **[컴포넌트 추적](docs/guides/component-tracking.md)** - Vue 컴포넌트 추적
+
+### 기타
+- **[CLAUDE.md](CLAUDE.md)** - 프로젝트 개요 및 AI 어시스턴트 지침
 
 ## 🎯 주요 기능
 

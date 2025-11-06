@@ -1228,8 +1228,8 @@ curl -X POST http://localhost:8200/assets/v1/sourcemaps \
 - [Nuxt Discord](https://discord.com/invite/nuxt)
 
 ### 관련 문서
-- [README-APM.md](./README-APM.md) - APM 기본 설정
-- [QUICKSTART.md](./QUICKSTART.md) - 빠른 시작 가이드
+- [APM 설정 가이드](./apm-setup.md) - APM 기본 설정
+- [빠른 시작 가이드](../getting-started/quickstart.md) - 빠른 시작 가이드
 
 ---
 
